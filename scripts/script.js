@@ -21,7 +21,6 @@ Conversor de numero binario a decimal
 
 let numero1; let numero2;
 let operador;
-let bandNum1 = false;
 let bandOperador = false;
 
 let num = "302A";
@@ -125,125 +124,124 @@ function ConvertirBinarioADecimal(num) {
 
 }
 
-function Sumar(num1,num2)
-{
+function Sumar(num1, num2) {
     return num1 + num2;
 }
 
-function Restar(num1,num2)
-{
+function Restar(num1, num2) {
     return num1 - num2;
 }
 
-function Multiplicar(num1,num2)
-{
+function Multiplicar(num1, num2) {
     return num1 * num2;
 }
 
-function Dividir(num1,num2)
-{
+function Dividir(num1, num2) {
     let resultado;
-    
-    if (num2 == 0)
-    {
+
+    if (num2 == 0) {
         resultado = ("No se puede dividir por cero");
     }
-    else
-    {
-        resultado = num1 / num2; 
+    else {
+        resultado = num1 / num2;
     }
     return resultado;
 }
 
 
-function Calcular(num1,num2, operador)
-{ 
+function Calcular(num1, num2, operador) {
     let resultado;
-    
-    switch(operador)
-    {
+
+    switch (operador) {
         case '+':
-            resultado = Sumar(num1,num2);
+            resultado = Sumar(num1, num2);
             break;
 
         case '-':
-            resultado = Restar(num1,num2);
+            resultado = Restar(num1, num2);
             break;
-        
+
         case '*':
-            resultado = Multiplicar(num1,num2);
+            resultado = Multiplicar(num1, num2);
             break;
 
         case '/':
-            resultado = Dividir(num1,num2); 
+            resultado = Dividir(num1, num2);
             break;
     }
     return resultado;
 }
 
 
-function MostrarCaracter(car)
-{
+function MostrarCaracter(car) {
     alert(car);
 }
 
-function CargarCaracter(car, id)
-{
+function CargarCaracter(car, id) {
     let sePudo = false;
     let ant;
     let aux;
 
-    if(car === '+' || car === '-' || car === '*' || car === '/')
-    {
+    if (car === '+' || car === '-' || car === '*' || car === '/') {
         operador = car;
     }
-    
-    ant = document.getElementById(id).value;
+
+    ant = ObtenerTexto(id);
     ant += car;
-    document.getElementById(id).value = ant;   
+    document.getElementById(id).value = ant;
 
     return sePudo;
 }
 
-function ObtenerCaracter(id)
-{
+function ObtenerTexto(id) {
     return document.getElementById(id).value;
 }
 
-function LimpiarId(id)
-{
-    document.getElementById(id).value = "";  
+function LimpiarId(id) {
+    document.getElementById(id).value = "";
 }
 
-function CargarResultado(id)
-{
+function CargarResultado(id) {
     console.log(numero1);
     console.log(numero2);
     console.log(operador);
-    let aux =  Calcular(numero1, numero2, operador);
-    let num = parseFloat(aux);
+    let num;
+    let lista = ObtenerTexto(id);
+    lista = lista.split(operador)
+
+        numero1 = parseFloat(lista[0]);
+        numero2 = parseFloat(lista[1]);
+        let aux = Calcular(numero1, numero2, operador);
+        num = parseFloat(aux);
+    
     LimpiarId(id);
+    operador = undefined;
     document.getElementById(id).value = num;
 }
 
-function OperadorCargado(car, id)
-{
-    aux = parseFloat(document.getElementById(id).value);
-    if(!bandNum1)
+function OperadorCargado(car, id) {
+
+    if(operador === undefined)
     {
-        numero1 = aux;
+        CargarCaracter(car, id);
+        bandOperador = true;
     }
     else
     {
-        numero2 = aux;
-    }
-    
-    /*if(!bandOperador)
-    {*/
+        RemoverUltimocaracter(id);
         CargarCaracter(car, id);
         bandOperador = true;
-    //}
+    }
 }
+
+function RemoverUltimocaracter(id)
+{
+   let aux = ObtenerTexto(id);
+   let nea = aux.substring(0, aux.length -1);
+   document.getElementById(id).value = nea;
+   operador = undefined;
+}
+
 
 
 
